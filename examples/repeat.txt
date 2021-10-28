@@ -1,0 +1,16 @@
+/* example: simple repeat stmt */
+
+int a;
+int b;
+int c;
+
+{
+  a = 7;
+  b = 10;
+  c = 0;
+
+  repeat ((a+b)*2) 
+     c = c + 4;
+}
+
+   

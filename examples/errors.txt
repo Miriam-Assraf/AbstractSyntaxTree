@@ -1,0 +1,23 @@
+/*  example:  program with errors */
+
+int i;
+int j;
+int y;
+
+float a;
+float b;
+
+int y;  // y is already defined
+
+{
+// left hand side and right hand side of assignment have different types. 
+   i = a + 3.0;
+   
+   // variable z is undefined
+   b = z;
+
+   
+   i = a + j; // operands of + have different types.
+
+
+}

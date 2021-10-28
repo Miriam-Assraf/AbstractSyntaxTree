@@ -1,0 +1,15 @@
+    _t1 = 2 * 3
+    ifFalse z < _t1 goto label1
+    _t2 = b - c
+    _t3 = _t2 / 17
+    a = _t3
+    goto label2
+label1:
+label3:
+    ifFalse h == 7 goto label4
+    _t4 = x <+> 0.60
+    x = _t4
+    goto label3
+label4:
+label2:
+    halt

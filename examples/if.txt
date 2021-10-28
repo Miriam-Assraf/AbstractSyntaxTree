@@ -1,0 +1,19 @@
+/* example:  if stmt */
+
+int a;
+int b; 
+int c;
+
+float z;
+
+{
+  a = 1;
+  b = 2;
+  c = 3;
+  
+  if ((a + b) <= c)
+      z = 3.14159;
+  else
+      z = 2.718;
+
+}

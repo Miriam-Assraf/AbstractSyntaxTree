@@ -1,0 +1,24 @@
+label1:
+    ifFalse a < 10 goto label2
+    _t1 = 2 * 3
+    ifFalse z < _t1 goto label3
+    goto label1  /* continue */
+    goto label4
+label3:
+label5:
+    ifFalse h == 7 goto label6
+    _t2 = x <+> 0.60
+    x = _t2
+    ifFalse x > 20.00 goto label7
+    goto label5 /* continue */
+    goto label8
+label7:
+    _t3 = x <+> 7.50
+    x = _t3
+label8:
+    goto label5
+label6:
+label4:
+    goto label1
+label2:
+    halt

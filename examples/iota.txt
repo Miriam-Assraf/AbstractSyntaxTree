@@ -1,0 +1,12 @@
+a = iota;
+int foo;
+float bar;
+b = iota;
+c = iota;
+
+{
+  repeat ((a+b)*2) 
+     c = a + 4;
+     a = b + 1;
+     b = 1 + 1;
+}

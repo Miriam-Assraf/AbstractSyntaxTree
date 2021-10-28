@@ -1,0 +1,16 @@
+   a = 7
+   b = 10
+   c = 0
+
+   _t1 = a + b
+   _t2 = t1 * 2
+    
+label1:    
+    if _t2 <= 0 goto label2
+    
+    _t3  = c + 4
+    c = _t3
+    
+    _t2 = _t2 - 1
+    goto label1
+label2:

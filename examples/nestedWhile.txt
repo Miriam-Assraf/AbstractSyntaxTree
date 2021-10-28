@@ -1,0 +1,14 @@
+/* example:  while stmt nested in if stmt */
+int a;
+int b;
+int c;
+int z;
+
+float h;
+float x;
+
+if (z < 2 * 3)
+    a = (b - c) / 17;
+else
+    while (h == 7)
+	    x = x + 0.6;

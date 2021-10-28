@@ -1,0 +1,11 @@
+    a = 1
+    b = 2
+    c = 3
+    _t1 = a + b
+    ifFalse _t1 <= c goto label1
+    z = 3.14
+    goto label2
+label1:
+    z = 2.72
+label2:
+    halt

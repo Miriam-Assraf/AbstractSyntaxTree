@@ -1,0 +1,11 @@
+    c = 0
+    a = 5
+    b = 17
+label1:
+    ifFalse a > c goto label2
+    ifFalse a < b goto label2
+    _t1 = a * 4
+    a = _t1
+    goto label1
+label2:
+    halt

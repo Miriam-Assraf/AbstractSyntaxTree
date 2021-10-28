@@ -1,0 +1,23 @@
+    a = 0
+    _t1 = a + 17
+        
+    if _t1 == 1 goto label1 
+    if _t1 == 2 goto label2
+    if _t1 == 3 goto label3
+    goto label4  
+    
+    
+label1:
+    b = 11
+    goto label5
+label2:
+    b = 12
+    goto label5
+label3:
+    b = 13
+    goto label5
+label4:
+    b = 100
+
+label5:
+    halt

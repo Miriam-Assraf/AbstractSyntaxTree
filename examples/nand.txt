@@ -1,0 +1,15 @@
+/* example: while stmt with condition using "nand" operator */
+int a; 
+int b;
+int c;
+
+{
+  c = 0;
+  a = 5; 
+  b = 17;
+
+  while (a > c nand a < b)
+    a = a + 4;
+}
+
+	

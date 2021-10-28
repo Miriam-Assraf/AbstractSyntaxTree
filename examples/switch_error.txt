@@ -1,0 +1,20 @@
+/* example: switch stmt */
+
+float a;
+int b;
+
+{
+  a = 0;
+
+  switch ( a + 17.0 ) { /* error: switch expression must have type int */
+  
+     case 1: b = 11; break;
+     case 2: b = 12; break;
+     case 3: b = 13; break;
+     default: b = 100; 
+  }  
+  
+  
+}
+
+   

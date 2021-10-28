@@ -1,0 +1,18 @@
+/* example:  while stmt nested in while stmt */
+int a;
+int z;
+
+float h;
+float x;
+
+while  (a < 10) 
+   if (z < 2 * 3)
+       continue;
+   else
+       while (h == 7) {
+	      x = x + 0.6;
+	      if (x > 20.0)
+	         continue;
+	      else
+		     x = x + 7.5;
+	   }

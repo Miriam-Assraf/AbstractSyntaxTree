@@ -1,0 +1,14 @@
+/* example: read and write stmts */
+
+int i;
+float a;
+{
+  read (i);
+  /* write ( i + 10); */ /* write not implemented */
+  
+  read (a);
+  /* write ( a * 2.0); */ /* write not implemented */
+
+}
+
+   

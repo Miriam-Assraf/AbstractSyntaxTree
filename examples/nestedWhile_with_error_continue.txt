@@ -1,0 +1,15 @@
+int z;
+
+float h;
+float x;
+
+   if (z < 2 * 3)
+       continue; // error: continue not in loop 
+   else
+       while (h == 7) {
+	      x = x + 0.6;
+	      if (x > 20.0)
+	         continue; // this continue is OK
+		  else
+		     x = x + 7.5;
+	   }

@@ -1,0 +1,15 @@
+/* example: if stmt with condition using NOT */
+float a;
+float b;
+int c;
+
+{
+  a = 1.0;
+  b = 2.0;
+  
+  if (not (a > b))
+     c = 8;
+  else
+     c = 100;
+}
+

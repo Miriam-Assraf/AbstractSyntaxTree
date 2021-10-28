@@ -1,0 +1,11 @@
+    iread i
+    _t1 = i
+    _t2 = 10
+    _t3 = _t1 + _t2
+    iwrite _t3
+    fread a
+    _t4 = a
+    _t5 = 2.00
+    _t6 = _t4 @* _t5
+    fwrite _t6
+    halt

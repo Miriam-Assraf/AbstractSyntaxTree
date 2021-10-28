@@ -1,0 +1,9 @@
+    a = 1.00
+    b = 2.00
+    if a > b goto label1
+    c = 8
+    goto label2
+label1:
+    c = 100
+label2:
+    halt

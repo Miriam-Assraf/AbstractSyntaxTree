@@ -1,0 +1,25 @@
+int i;
+int j;
+int k;
+
+float a;
+float b;
+float c;
+
+{
+   i = k;  // int assigned to int
+   j = 2.0; // float assigned to int
+
+   a = 5; //  int assigned to  float
+   b = 6.0; // float assigned  to float
+
+   //  binary operator  applied  to different combinations of types
+   c = a + b;
+   c = a + i;
+   c = i + a;
+   c = i + j;
+   
+   j = a * i;
+   k = (a * b) + (i * j);
+        
+}

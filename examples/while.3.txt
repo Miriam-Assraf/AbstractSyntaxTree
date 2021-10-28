@@ -1,0 +1,8 @@
+    a = 0
+label1:
+    ifFalse a < 10 goto label2
+    _t1 = a + 3
+    a = _t1
+    goto label1
+label2:
+    halt

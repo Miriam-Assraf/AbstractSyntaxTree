@@ -1,0 +1,19 @@
+/*  example:  if stmt with condition  using OR */
+int a; 
+int b;
+int c;
+
+{
+  c = 0;
+  a = 5; 
+  b = 17;
+
+  if (a > c or a < b)
+    a = a + 4;
+  else {
+    a = a + 1;
+    b = b * 7;
+  }
+}
+
+	

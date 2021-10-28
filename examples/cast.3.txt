@@ -1,0 +1,40 @@
+    i = k
+    j = (int) 2.0 // compiler should issue a warning:
+                  // float value assigned to int variable
+    
+    a = (float) 5
+    b = 6.00
+    
+    c = a + b
+    
+    // c = a + i
+    _t1 = (float) i
+    _t2 = a <+> _t1
+    c = _t2
+    
+    // c = i + a
+    _t3 = (int) a
+    _t4 = i + _t3
+    c = (float) _t4
+    
+    // c = i + j
+    _t5 = i + j
+    c = (float) _t5
+    
+     // j = a * i   
+    _t6 = (float) i
+    _t7 = a <*> _t6
+    j = (int) _t7  // compiler should issue a warning
+                   // float value assigned to int variable
+    
+    
+    // k = (a * b) + (i * j)
+    _t8 = a <*> b
+    _t9 = i * j
+    _t10 = (float) _t9
+    _t11 = _t8 <+> _t10
+    k = (int) _t11 // compiler should issue a warning
+                   // float value assigned to int variable
+    
+    halt
+    
