@@ -5,14 +5,21 @@
 
 class Object 
 {
+private:
+    enum objectType type;
+    char* string; // for example "bar"  or "17" or "3.14"
+
 public:
     Object();
-    Object(char* variable);
+    Object(const char* variable);
     Object(int ival);
     Object(double fval);
+    Object(const Object& other);  // copy constructor
 
-    enum objectType _type;
-    char _string[100]; // for example "bar"  or "17" or "3.14"
+    ~Object();  // distructor
+
+    enum objectType getType() const { return type; };
+    char* getString() const { return string; };
 };
 
 #endif

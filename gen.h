@@ -21,7 +21,7 @@ enum objectType { INT_NUMBER, FLOAT_NUMBER, VARIABLE, ERROR };
 enum myType { _INT, _FLOAT, UNKNOWN };
 enum op { PLUS = 0, MINUS, MUL, DIV, XOR_OP, LT, GT, LE, GE, EQ, NE };
 
-Object newTemp();
+Object* newTemp();
 int newlabel();
 void emit(const char* format, ...);
 void emitlabel(int label);

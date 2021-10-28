@@ -2,12 +2,58 @@
 #include "gen.h"
 #include "expressions.h"
 #include "object.h"
+#include "symtab.h"
 
-Object intResult(enum op _op, int left, int right)
+BinaryOp::BinaryOp(enum op op, Exp* left, Exp* right, int line): op(op), left(left), right(right), line(line)
+{
+
+	if (op == XOR_OP) {
+		if (left->getType() != _INT || right->getType() != _INT) {	// both operands must be int
+			errorMsg(ERR, "line %d: operator %s should be applied on opperands of type int only\n", line, opName(op, _INT));
+		}
+		type = _INT;	// type of returned value should be int
+	}
+
+	else {
+		type = left->getType();
+	}
+}
+
+NumNode::NumNode(int ival): Exp(_INT)
+{
+	setIval(ival);
+}
+
+NumNode::NumNode(double fval): Exp(_FLOAT)
+{
+	setFval(fval);
+}
+
+IdNode::IdNode(const char* name, int line): name(nullptr), line(line)
+{
+	myType t = getSymbol(name);
+	if (t == UNKNOWN) {
+		errorMsg(ERR, "line %d: variable %s is undefined\n", line, name);
+		t = _INT;
+	}
+	type = t;
+
+	this->name = new char[10];
+	strcpy(this->name, name);
+}
+
+IdNode::IdNode(const IdNode& other) : name(other.name), line(other.line) {}
+
+IdNode::~IdNode()
+{
+	delete[] name;
+}
+
+Object intResult(enum op op, int left, int right)
 {
 	Object result;
 
-	switch (_op) {
+	switch (op) {
 	case PLUS:
 		result = Object(left + right);
 		break;
@@ -33,11 +79,11 @@ Object intResult(enum op _op, int left, int right)
 	return result;
 }
 
-Object floatResult(enum op _op, float left, float right)
+Object floatResult(enum op op, float left, float right)
 {
 	Object result;
 
-	switch (_op) {
+	switch (op) {
 	case PLUS:
 		result = Object(left + right);
 		break;
@@ -65,46 +111,49 @@ Object floatResult(enum op _op, float left, float right)
 
 Object BinaryOp::genExp()
 {
-	Object left_operand_result = _left->genExp();
-	Object right_operand_result = _right->genExp();
+	Object left_operand_result = left->genExp();
+	Object right_operand_result = right->genExp();
 
 	Object result;
 
 	// if both operands are NumNodes - calculate value 
-	if ((left_operand_result._type == INT_NUMBER || left_operand_result._type == FLOAT_NUMBER) &&
-		(right_operand_result._type == INT_NUMBER || right_operand_result._type == FLOAT_NUMBER))
+	if ((left_operand_result.getType() == INT_NUMBER || left_operand_result.getType() == FLOAT_NUMBER) &&
+		(right_operand_result.getType() == INT_NUMBER || right_operand_result.getType() == FLOAT_NUMBER))
 	{
-		if (left_operand_result._type == INT_NUMBER) {	// left operand determines the type
+		if (left_operand_result.getType() == INT_NUMBER) {	// left operand determines the type
 			// helper function for ints (left operand determines the type) returns Object(result value) based on operands
-			result = intResult(_op, atoi(left_operand_result._string), atoi(right_operand_result._string));
+			result = intResult(op, atoi(left_operand_result.getString()), atoi(right_operand_result.getString()));
 		}
-		else {
+		else 
+		{
 			// helper function for floats (left operand determines the type) returns Object(result value) based on operands
-			result = floatResult(_op, atof(left_operand_result._string), atof(right_operand_result._string));
+			result = floatResult(op, atof(left_operand_result.getString()), atof(right_operand_result.getString()));
 		}
 	}
 
 	// else return expression
 	else {
-		result = newTemp();
-		const char* the_op = opName(_op, _type);
-		if (_left->_type != _right->_type)
+		result = *newTemp();
+		const char* the_op = opName(op, type);
+		if (left->getType() != right->getType())
 		{
-			Object converted = newTemp();
+			Object converted = *newTemp();
 
-			if (_left->_type == _INT) {
-				emit("%s = (int) %s\n", converted._string, right_operand_result._string);
+			if (left->getType() == _INT) 
+			{
+				emit("%s = (int) %s\n", converted.getString(), right_operand_result.getString());
 			}
-			else {
-				emit("%s = (float) %s\n", converted._string, right_operand_result._string);
+			else 
+			{
+				emit("%s = (float) %s\n", converted.getString(), right_operand_result.getString());
 			}
-			emit("%s = %s %s %s\n", result._string, left_operand_result._string,
-				the_op, converted._string);
+			emit("%s = %s %s %s\n", result.getString(), left_operand_result.getString(),
+				the_op, converted.getString());
 		}
 		else
 		{
-			emit("%s = %s %s %s\n", result._string, left_operand_result._string,
-				the_op, right_operand_result._string);
+			emit("%s = %s %s %s\n", result.getString(), left_operand_result.getString(),
+				the_op, right_operand_result.getString());
 		}
 	}
 
@@ -113,7 +162,7 @@ Object BinaryOp::genExp()
 
 Object NumNode::genExp()
 {
-	return (_type == _INT) ? Object(_u.ival) : Object(_u.fval);
+	return (type == _INT) ? Object(value.ival) : Object(value.fval);
 #if 0
 	int result = newTemp();
 	if (_type == _INT)
@@ -126,7 +175,7 @@ Object NumNode::genExp()
 
 Object IdNode::genExp()
 {
-	return Object(_name);
+	return Object(name);
 #if 0
 	int result = newTemp();
 

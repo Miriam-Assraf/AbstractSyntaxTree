@@ -1,21 +1,33 @@
 #include "object.h"
+#include <cstring>
 
-Object::Object() : _type(ERROR)
+Object::Object() : string(nullptr), type(ERROR)
 {
-	strcpy(_string, "error found");
+	this->string = new char[10];
+	strcpy(string, "error found");
 }
 
-Object::Object(char* variable) : _type(VARIABLE)
+Object::Object(const char* variable) : string(nullptr), type(VARIABLE)
 {
-	strcpy(_string, variable);
+	this->string = new char[10];
+	strcpy(string, variable);
 }
 
-Object::Object(int ival) : _type(INT_NUMBER)
+Object::Object(int ival) : string(nullptr), type(INT_NUMBER)
 {
-	sprintf(_string, "%d", ival);
+	this->string = new char[10];
+	sprintf(string, "%d", ival);
 }
 
-Object::Object(double fval) : _type(FLOAT_NUMBER)
+Object::Object(double fval) : string(nullptr), type(FLOAT_NUMBER)
 {
-	sprintf(_string, "%.2f", fval);
+	this->string = new char[10];
+	sprintf(string, "%.2f", fval);
+}
+
+Object::Object(const Object& other) : string(other.string), type(other.type){}
+
+Object::~Object()
+{
+	delete[] string;
 }

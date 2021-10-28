@@ -23,43 +23,47 @@ public:  //  some members  should be private ...
 // another example:   (a + 3) < (z * 5 + y).    
 class SimpleBoolExp : public BoolExp 
 {
-public:
-	SimpleBoolExp(enum op op, Exp* left, Exp* right) : _op(op), _left(left), _right(right) {};
-	void genBoolExp(int truelabel, int falselabel); // override
+private:
+	enum op op;
+	Exp* left; // left operand
+	Exp* right; // right operand
 
-	enum op _op;
-	Exp* _left; // left operand
-	Exp* _right; // right operand
+public:
+	SimpleBoolExp(enum op op, Exp* left, Exp* right);
+	void genBoolExp(int truelabel, int falselabel); // override
 };
 
 class Or : public BoolExp 
 {
-public:
-	Or(BoolExp* left, BoolExp* right) : _left(left), _right(right) {};
-	void genBoolExp(int truelabel, int falselabel); // override
+private:
+	BoolExp* left; // left operand
+	BoolExp* right; // right operand
 
-	BoolExp* _left; // left operand
-	BoolExp* _right; // right operand
+public:
+	Or(BoolExp* left, BoolExp* right);
+	void genBoolExp(int truelabel, int falselabel); // override
 };
 
 class And : public BoolExp 
 {
-public:
-	And(BoolExp* left, BoolExp* right) : _left(left), _right(right) {};
-	void genBoolExp(int truelabel, int falselabel); // override
+private:
+	BoolExp* left; // left operand
+	BoolExp* right; // right operand
 
-	BoolExp* _left; // left operand
-	BoolExp* _right; // right operand
+public:
+	And(BoolExp* left, BoolExp* right);
+	void genBoolExp(int truelabel, int falselabel); // override
 };
 
 
 class Not : public BoolExp 
 {
-public:
-	Not(BoolExp* operand) { _operand = operand; }
-	void genBoolExp(int truelabel, int falselabel); // override
+private:
+	BoolExp* operand;
 
-	BoolExp* _operand;
+public:
+	Not(BoolExp* operand);
+	void genBoolExp(int truelabel, int falselabel); // override
 };
 
 //class Nand : public BoolExp {

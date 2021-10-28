@@ -1,8 +1,6 @@
 #ifndef __AST_H
 #define __AST_H
 
-#include "gen.h"
-
 /*
 enum myType { _INT, _FLOAT, UNKNOWN };
 enum op { PLUS = 0, MINUS, MUL, DIV, LT, GT, LE, GE, EQ, NE };

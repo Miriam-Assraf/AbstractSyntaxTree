@@ -8,9 +8,9 @@ bison:
 	bison -d ast.y
 
 flex:
-	flex ast.lex
+	flex ast_linux.lex
 
 clean :
-	rm ast.tab.c ast.tab.h lex.yy.c
+	rm ast ast.tab.c ast.tab.h lex.yy.c
 
 

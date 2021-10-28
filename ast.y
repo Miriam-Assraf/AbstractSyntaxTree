@@ -24,8 +24,8 @@ static int counter = 0;
 
 %code requires {
 #include "gen.h"
-#include "ast.h"
-#include "object.h"
+//#include "ast.h"
+//#include "object.h"
 #include "expressions.h"
 #include "boolExpressions.h"
 #include "statements.h"
@@ -38,9 +38,9 @@ static int counter = 0;
    // float numbers in the source program are stored as double
    double fval;
    enum op op;
-   char name[100];
+   char name[10];
    
-   myType _type;
+   myType type;
    
    //  pointers to AST nodes:
    Stmt *stmt;
@@ -69,7 +69,7 @@ static int counter = 0;
 %token READ REPEAT IF ELSE WHILE  FOR INT FLOAT IOTA
 %token OR AND NOT NAND SWITCH CASE DEFAULT BREAK CONTINUE
 
-%type <_type> type
+%type <type> type
 
 %type <exp> expression
 %type <boolexp> boolexp 
@@ -148,7 +148,7 @@ switch_stmt : SWITCH '(' expression ')' '{' caselist DEFAULT ':' stmt '}' { $$ =
 
 /*  semantic value of caselist is a pointer to the first case in a list of Cases. Each Case points to the 
     next Case on the list */ 
-caselist : case caselist { $1->_next = $2;   
+caselist : case caselist { $1->setNext($2);   
                            $$ = $1; };
         						   
 
@@ -170,7 +170,7 @@ block: '{' declarations stmtlist '}' { $$ = new Block ($3); };
     Semantic value of stmtlist is a pointer to the first Stmt in a list 
 	of Stmts. Each Stmt points to the next Stmt on the list
 */
-stmtlist:  stmt stmtlist {  $1->_next = $2;  // also works when $2 is NULL
+stmtlist:  stmt stmtlist {  $1->setNext($2);  // also works when $2 is NULL
                             $$ = $1;  
 						 };
 stmtlist:  /* empty */ { $$ = NULL; };

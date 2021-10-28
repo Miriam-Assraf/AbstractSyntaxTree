@@ -3,6 +3,8 @@
 #include "object.h"
 #include "gen.h"
 
+SimpleBoolExp::SimpleBoolExp(enum op op, Exp* left, Exp* right) : op(op), left(left), right(right) {};
+
 void SimpleBoolExp::genBoolExp(int truelabel, int falselabel)
 {
 	if (truelabel == FALL_THROUGH && falselabel == FALL_THROUGH)
@@ -10,10 +12,10 @@ void SimpleBoolExp::genBoolExp(int truelabel, int falselabel)
 
 	const char* the_op;
 
-	Object left_result = _left->genExp();
-	Object right_result = _right->genExp();
+	Object left_result = left->genExp();
+	Object right_result = right->genExp();
 
-	switch (_op) {
+	switch (op) {
 	case LT:
 		the_op = "<";
 		break;
@@ -37,17 +39,19 @@ void SimpleBoolExp::genBoolExp(int truelabel, int falselabel)
 	}
 
 	if (truelabel == FALL_THROUGH)
-		emit("ifFalse %s %s %s goto label%d\n", left_result._string, the_op,
-			right_result._string, falselabel);
+		emit("ifFalse %s %s %s goto label%d\n", left_result.getString(), the_op,
+			right_result.getString(), falselabel);
 	else if (falselabel == FALL_THROUGH)
-		emit("if %s %s %s goto label%d\n", left_result._string, the_op,
-			right_result._string, truelabel);
+		emit("if %s %s %s goto label%d\n", left_result.getString(), the_op,
+			right_result.getString(), truelabel);
 	else { // no fall through
-		emit("if %s %s %s goto label%d\n", left_result._string, the_op,
-			right_result._string, truelabel);
+		emit("if %s %s %s goto label%d\n", left_result.getString(), the_op,
+			right_result.getString(), truelabel);
 		emit("goto label%d\n", falselabel);
 	}
 }
+
+Or::Or(BoolExp* left, BoolExp* right) : left(left), right(right) {};
 
 void Or::genBoolExp(int truelabel, int falselabel)
 {
@@ -56,29 +60,31 @@ void Or::genBoolExp(int truelabel, int falselabel)
 
 	if (truelabel == FALL_THROUGH) {
 		int next_label = newlabel(); // FALL_THROUGH implemented by jumping to next_label
-		_left->genBoolExp(next_label, // if left operand is true then the OR expression
+		left->genBoolExp(next_label, // if left operand is true then the OR expression
 									   //is true so jump to next_label (thus falling through
 									   // to the code following the code for the OR expression)
 			FALL_THROUGH); // if left operand is false then 
 						   // fall through and evaluate right operand   
-		_right->genBoolExp(FALL_THROUGH, falselabel);
+		right->genBoolExp(FALL_THROUGH, falselabel);
 		emitlabel(next_label);
 	}
 	else if (falselabel == FALL_THROUGH) {
-		_left->genBoolExp(truelabel, // if left operand is true then the OR expresson is true 
+		left->genBoolExp(truelabel, // if left operand is true then the OR expresson is true 
 									  // so jump to  truelabel (without evaluating right operand)
 			FALL_THROUGH); // if left operand is false then 
 							// fall through and evaluate right operand
-		_right->genBoolExp(truelabel, FALL_THROUGH);
+		right->genBoolExp(truelabel, FALL_THROUGH);
 	}
 	else { // no fall through
-		_left->genBoolExp(truelabel, // if left operand is true then the or expresson is true 
+		left->genBoolExp(truelabel, // if left operand is true then the or expresson is true 
 									  // so jump to  truelabel (without evaluating right operand)
 			FALL_THROUGH); // if left operand is false then 
 							// fall through and evaluate right operand
-		_right->genBoolExp(truelabel, falselabel);
+		right->genBoolExp(truelabel, falselabel);
 	}
 }
+
+And::And(BoolExp* left, BoolExp* right) : left(left), right(right) {};
 
 void And::genBoolExp(int truelabel, int falselabel)
 {
@@ -86,34 +92,36 @@ void And::genBoolExp(int truelabel, int falselabel)
 		return; // no need for code 
 
 	if (truelabel == FALL_THROUGH) {
-		_left->genBoolExp(FALL_THROUGH, // if left operand is true then fall through and evaluate
+		left->genBoolExp(FALL_THROUGH, // if left operand is true then fall through and evaluate
 										 // right operand.
 			falselabel); // if left operand is false then the AND expression is
 						 // false so jump to falselabel);
-		_right->genBoolExp(FALL_THROUGH, falselabel);
+		right->genBoolExp(FALL_THROUGH, falselabel);
 	}
 	else if (falselabel == FALL_THROUGH) {
 		int next_label = newlabel(); // FALL_THROUGH implemented by jumping to next_label
-		_left->genBoolExp(FALL_THROUGH, // if left operand is true then fall through and
+		left->genBoolExp(FALL_THROUGH, // if left operand is true then fall through and
 										 // evaluate right operand
 			next_label); // if left operand is false then the AND expression 
 						 //  is false so jump to next_label (thus falling through to
 						 // the code following the code for the AND expression)
-		_right->genBoolExp(truelabel, FALL_THROUGH);
+		right->genBoolExp(truelabel, FALL_THROUGH);
 		emitlabel(next_label);
 	}
 	else { // no fall through
-		_left->genBoolExp(FALL_THROUGH, 	// if left operand is true then fall through and
+		left->genBoolExp(FALL_THROUGH, 	// if left operand is true then fall through and
 										 // evaluate right operand
 			falselabel); // if left operand is false then the AND expression is false
 						 // so jump to falselabel (without evaluating the right operand)
-		_right->genBoolExp(truelabel, falselabel);
+		right->genBoolExp(truelabel, falselabel);
 	}
 }
 
+Not::Not(BoolExp* operand) { operand = operand; }
+
 void Not::genBoolExp(int truelabel, int falselabel)
 {
-	_operand->genBoolExp(falselabel, truelabel);
+	operand->genBoolExp(falselabel, truelabel);
 }
 
 //void Nand::genBoolExp(int truelabel, int falselabel)

@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h> // exit ()
 #include <stdarg.h>
+#include <string>
 #include "gen.h"
 #include "object.h"
 
+using namespace std;
 /*    This stack is used to implement  continue statements.
 	  "continue"  is implemented as a goto to the label attached
 	  to the code for the condition of the most closely enclosing while
@@ -13,12 +15,12 @@
 	  The stack is empty when we are not inside a  while statement.
 */
 
-Object newTemp()
+Object* newTemp()
 {
 	static int counter = 1;
-	char name[100];
-	sprintf(name, "_t%d", counter++);
-	return Object(name);
+	string name = "_t" + to_string(counter++);
+
+	return new Object(name.c_str());
 }
 
 
