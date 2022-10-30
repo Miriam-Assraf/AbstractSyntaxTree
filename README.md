@@ -1,6 +1,10 @@
 # intermediateCodeWithAST
- Three Address Code generator using Abstract Syntax Tree.
- 
+ Three Address Code generator using Abstract Syntax Tree:
+ * Translates C++ operations to TAC.
+ * Supports Boolean operations.
+ * Supports if, while and switch statements.
+ *	Recursive descent parsing (top-down) for building ASTs.
+
  The project contains: 
  * .lex file, which contains regular expressions and actions, that is fed to flex which produces lex.yy.c containing yylex() function to peeform lexical analysis.
  * .y file, which contains the grammer of the language, that is fed to bison which produces a header and c files containing yyparse() function to perform parsing.
