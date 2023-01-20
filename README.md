@@ -16,10 +16,8 @@
  
  In order to run over Linux:
  * run on terminal the following commands:
-   * make flex
-   * make bison
-   * make ast
-   * ./ast examples/{fname}, where fname is an input text file from examples dir
+   * make build 
+   * make run - requires user input for input file of form examples/{fname}, where fname is an input text file from examples dir
  
  In order to run over Windows:
  * requires installation of MinGW (quick and good tutorial https://www.youtube.com/watch?v=8CNRX1Bk5sY)
